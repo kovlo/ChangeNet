@@ -23,7 +23,8 @@ class ChangeDatasetNumpy(Dataset):
     def __getitem__(self, idx):        
         reference_PIL, test_PIL, label_PIL = self.data_dict[idx]
         sample = {'reference': reference_PIL, 'test': test_PIL, 'label': label_PIL}        
-
+        #print ("GetItem(pre) - ref: ", reference_PIL.shape, "test: ", test_PIL.shape, "label: ", label_PIL.shape)
+        #print ("GetItem(pre) - ref: ", type(reference_PIL))
         # Handle Augmentations
         if self.transform:
             trf_reference = sample['reference']
@@ -52,5 +53,6 @@ class ChangeDatasetNumpy(Dataset):
                                         trf_label = t(trf_label)
                               
             sample = {'reference': trf_reference, 'test': trf_test, 'label': trf_label}
+            #print ("GetItem(post) - ref: ", type(sample['reference']) )
 
         return sample

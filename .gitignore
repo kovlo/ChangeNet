@@ -1,0 +1,12 @@
+docs/
+runs/
+VL-CMU-CD/
+VL-CMU-CD-dataset/
+__pycache__/
+.ipynb_checkpoints/
+*.pkl
+*.zip
+*.pdf
+*.jpg
+*.jpeg
+*.png

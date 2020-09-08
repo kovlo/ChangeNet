@@ -31,11 +31,12 @@ def train_model(model, dataloaders, criterion, optimizer, sc_plt, writer, device
             list_dice_val = []
 
             # Iterate over data.
-            for sample in dataloaders[phase]:                
+            for sample in dataloaders[phase]:   
                 reference_img = sample['reference'].to(device)
                 test_img = sample['test'].to(device)
-                labels = (sample['label']>0).squeeze(1).type(torch.LongTensor).to(device)
-
+                #print ("labels (pre squeeze) :", (sample['label'].size()), "ref :", sample['reference'].size())
+                labels = (sample['label']>0).squeeze(1).type(torch.LongTensor).to(device)  # Turns label into true/false matrix
+                #print ("labels :", labels.size())
                 # zero the parameter gradients
                 optimizer.zero_grad()
 
@@ -45,6 +46,7 @@ def train_model(model, dataloaders, criterion, optimizer, sc_plt, writer, device
                     # Get model outputs and calculate loss                    
                     outputs = model([reference_img, test_img])
                     
+                    print ("output from model: ", outputs.size())
                     # Calculate Loss
                     loss = criterion(outputs, labels)
 
