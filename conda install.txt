@@ -1,0 +1,11 @@
+conda create -n changenet python=3
+conda activate changenet
+
+conda install jupyter pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch
+
+pip install tqdm
+pip install numpy
+pip install Pillow
+pip install matplotlib
+pip install tensorboard
+pip install tensorflow
