@@ -46,7 +46,7 @@ def train_model(model, dataloaders, criterion, optimizer, sc_plt, writer, device
                     # Get model outputs and calculate loss                    
                     outputs = model([reference_img, test_img])
                     
-                    print ("output from model: ", outputs.size())
+                    #print ("output from model: ", outputs.size())
                     # Calculate Loss
                     loss = criterion(outputs, labels)
 
