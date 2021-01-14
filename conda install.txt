@@ -2,7 +2,7 @@ conda create -n changenet python=3
 conda activate changenet
 
 conda install jupyter pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch
-
+conda install opencv
 pip install tqdm
 pip install numpy
 pip install Pillow
