@@ -139,42 +139,65 @@ sc_plt = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, patience=3, verbo
 # %%
 best_model, _ = utils_train.train_model(change_net, dataloaders_dict, criterion, optimizer, sc_plt, writer, device, num_epochs=num_epochs)
 torch.save(best_model.state_dict(), './best_model'+str(num_classes)+'CD.pkl')
+dataset = val_dataset
+dataset = train_dataset
+#@interact(idx=widgets.IntSlider(min=0,max=int(len(dataset)-1)/8), inv=widgets.Checkbox())
+idx=10
+inv=False
 
 
-# %%
-@interact(idx=widgets.IntSlider(min=0,max=len(val_dataset)-1), inv=widgets.Checkbox())
 def explore_validation_dataset(idx, inv):
-    best_model.eval()
-    #sample = val_dataset[idx]
-    sample = train_dataset[idx]
-    if not inv:
-        reference = sample['reference'].unsqueeze(0).to(device)
-        reference_img = sample['reference'].permute(1, 2, 0).cpu().numpy()
-        test_img = sample['test'].permute(1, 2, 0).cpu().numpy()
-        test = sample['test'].unsqueeze(0).to(device)
-    else:
-        reference = sample['test'].unsqueeze(0).to(device)
-        reference_img = sample['test'].permute(1, 2, 0).cpu().numpy()
-        test_img = sample['reference'].permute(1, 2, 0).cpu().numpy()
-        test = sample['reference'].unsqueeze(0).to(device)
+    #best_model.eval()
+    change_net.eval()
+    imgsize = 224
+    
+    referenceimg = np.zeros((imgsize,imgsize*8,3))
+    testimg=np.zeros((imgsize,imgsize*8,3))
+    labelimg=np.zeros((imgsize,imgsize*8))
+    outputimg=np.zeros((imgsize,imgsize*8))
+    for i in range(0,8):
+        sample = dataset[idx+i]
+        if not inv:
+            reference = sample['reference'].unsqueeze(0).to(device)
+            reference_img = sample['reference'].permute(1, 2, 0).cpu().numpy()
+            test_img = sample['test'].permute(1, 2, 0).cpu().numpy()
+            test = sample['test'].unsqueeze(0).to(device)
+        else:
+            reference = sample['test'].unsqueeze(0).to(device)
+            reference_img = sample['test'].permute(1, 2, 0).cpu().numpy()
+            test_img = sample['reference'].permute(1, 2, 0).cpu().numpy()
+            test = sample['reference'].unsqueeze(0).to(device)
         
-    label = sample['label'].type(torch.LongTensor).squeeze(0).cpu().numpy()
-    #label = (sample['label']>0).type(torch.LongTensor).squeeze(0).cpu().numpy()
-    pred = best_model([reference, test])
-    #print(pred.shape)
-    _, output = torch.max(pred, 1)
-    output = output.squeeze(0).cpu().numpy()
+        label = sample['label'].type(torch.LongTensor).squeeze(0).cpu().numpy()
+        #label = (sample['label']>0).type(torch.LongTensor).squeeze(0).cpu().numpy()
+        
+        #pred = best_model([reference, test])
+        pred = change_net([reference, test])
+        
+        #print(pred.shape)
+        _, output = torch.max(pred, 1)
+        output = output.squeeze(0).cpu().numpy()
+
+        referenceimg[:,i*imgsize:(i+1)*imgsize,:]=reference_img
+        testimg[:,i*imgsize:(i+1)*imgsize,:]=test_img
+        outputimg[:,i*imgsize:(i+1)*imgsize]=output
+        labelimg[:,i*imgsize:(i+1)*imgsize]=label
+
+
     fig=plt.figure(figsize=(8, 8))
     fig.add_subplot(2, 2, 1)
-    plt.imshow(reference_img)
+    plt.imshow(referenceimg)
     plt.title('Reference')
     fig.add_subplot(2, 2, 2)
-    plt.imshow(test_img)
+    plt.imshow(testimg)
     plt.title('Test')
     fig.add_subplot(2, 2, 3)
-    plt.imshow(label, )
+    plt.imshow(labelimg, )
     plt.title('Label')
     fig.add_subplot(2, 2, 4)
-    plt.imshow(output)
+    plt.imshow(outputimg)
     plt.title('ChangeNet Output')
     plt.show()
+print("itt")
+explore_validation_dataset(idx, inv)
+

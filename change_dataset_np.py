@@ -22,7 +22,7 @@ class ChangeDatasetNumpy(Dataset):
 
     def __getitem__(self, idx):        
         reference_PIL, test_PIL, label_PIL = self.data_dict[idx]
-
+       
         reference_PIL   = np.tile(reference_PIL[:,:,np.newaxis],(1,1,3))
         test_PIL        = np.tile(test_PIL[:,:,np.newaxis],(1,1,3))
 

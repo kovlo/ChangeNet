@@ -42,7 +42,7 @@ size_validation = len(val_file_list)
 # #### Load Validation Set On Memory
 # %%
 idx2 = 0
-for idx, entry in enumerate(tqdm(val_file_list[:750])):
+for idx, entry in enumerate(tqdm(val_file_list[1500:2250])):
     # Load the reference, test and label images
     trio_img = cv2.imread(base_data_dir + entry[0],cv2.IMREAD_UNCHANGED)
     trio_img=np.array(trio_img)
@@ -65,9 +65,10 @@ for idx, entry in enumerate(tqdm(val_file_list[:750])):
 print('Saving Pickle Validation Set')
 with open(val_pickle_file, 'wb') as handle:
     pickle.dump(validation_set, handle, protocol=4)
+"""
 # #### Load Training Set On Memory
 idx2 = 0
-for idx, entry in enumerate(tqdm(train_file_list[:5000])):
+for idx, entry in enumerate(tqdm(train_file_list[10000:15000])):
     trio_img = cv2.imread(base_data_dir + entry[0],cv2.IMREAD_UNCHANGED)   
     trio_img=np.array(trio_img)
 
@@ -91,4 +92,4 @@ print('Saving Pickle Training Set')
 with open(train_pickle_file, 'wb') as handle:
     pickle.dump(training_set, handle, protocol=4)
 print('Saved.')
-
+"""
