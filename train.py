@@ -117,7 +117,7 @@ change_net = change_net.to(device)
 # #### Load Weights
 
 # %%
-checkpointname = './best_model'+str(num_classes)+'.pkl'
+checkpointname = './best_model'+str(num_classes)+'CD.pkl'
 import os.path
 
 if os.path.exists((checkpointname)):
