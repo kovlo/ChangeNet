@@ -81,9 +81,6 @@ for idx, entry in enumerate(tqdm(train_file_list[:5000])):
     label_img = (label_img>0).astype(int)
     
     reference_PIL   = np.tile(reference_img[:,:,np.newaxis],(1,1,3))
-    import torchvision
-    t   = torchvision.transforms.ToPILImage()
-    reference_PIL=t(reference_PIL)
 
     for i in range(0,8):
         # Populate training dictionary with tupple (reference,test,label)
