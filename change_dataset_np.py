@@ -4,6 +4,7 @@ import pickle
 import torchvision
 import random
 import helper_augmentations
+from PIL import Image
 
 class ChangeDatasetNumpy(Dataset):
     """ChangeDataset Numpy Pickle Dataset"""
@@ -23,7 +24,6 @@ class ChangeDatasetNumpy(Dataset):
     def __getitem__(self, idx):        
         reference_PIL, test_PIL, label_PIL = self.data_dict[idx]
 
-        from PIL import Image
         reference_PIL = Image.merge('RGB', (reference_PIL,reference_PIL,reference_PIL))
         test_PIL = Image.merge('RGB', (test_PIL,test_PIL,test_PIL))
 
