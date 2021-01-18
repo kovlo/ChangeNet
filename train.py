@@ -198,6 +198,23 @@ def explore_validation_dataset(idx, inv):
     plt.imshow(outputimg)
     plt.title('ChangeNet Output')
     plt.show()
-print("itt")
-explore_validation_dataset(idx, inv)
+    vline = np.ones((imgsize,1))
+    hline = np.ones((1,imgsize*8*2+1))
+    outimg = np.hstack((referenceimg[:,:,0],vline,testimg[:,:,0]))
+    outimg= np.vstack((outimg,hline,np.hstack((labelimg,vline,outputimg))))
+#   plt.imshow(outimg)
+#    plt.show()
+    plt.imsave("./trainoutput/"+str(idx)+".png",outimg)
+    print(idx)
+
+test_pickle_file = './ChangeNet-arishin/change_dataset_testCD.pkl'
+test_dataset = change_dataset_np.ChangeDatasetNumpy(test_pickle_file, data_transforms['val'])
+dataset = val_dataset
+#dataset = train_dataset
+dataset = test_dataset
+
+for idx in range (0,int(len(dataset)/8)):
+    explore_validation_dataset(idx, False)
+
+print("Finished.")
 
