@@ -51,6 +51,7 @@ print('Number of GPUs Available:', num_gpu)
 
 train_pickle_file = './ChangeNet-arishin/change_dataset_trainCD.pkl'
 val_pickle_file = './ChangeNet-arishin/change_dataset_valCD.pkl'
+test_pickle_file = './ChangeNet-arishin/change_dataset_testCD.pkl'
 
 # #### Define Transformation
 
@@ -85,6 +86,8 @@ data_transforms = {
 # Create training and validation datasets
 train_dataset = change_dataset_np.ChangeDatasetNumpy(train_pickle_file, data_transforms['train'])
 val_dataset = change_dataset_np.ChangeDatasetNumpy(val_pickle_file, data_transforms['val'])
+test_dataset = change_dataset_np.ChangeDatasetNumpy(test_pickle_file, data_transforms['val'])
+
 image_datasets = {'train': train_dataset, 'val': val_dataset}
 # Create training and validation dataloaders
 train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=6)
@@ -139,13 +142,9 @@ sc_plt = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, patience=3, verbo
 # %%
 best_model, _ = utils_train.train_model(change_net, dataloaders_dict, criterion, optimizer, sc_plt, writer, device, num_epochs=num_epochs)
 torch.save(best_model.state_dict(), './best_model'+str(num_classes)+'CD.pkl')
-dataset = val_dataset
-dataset = train_dataset
+
 #@interact(idx=widgets.IntSlider(min=0,max=int(len(dataset)-1)/8), inv=widgets.Checkbox())
-idx=10
-inv=False
-
-
+import cv2
 def explore_validation_dataset(idx, inv):
     #best_model.eval()
     change_net.eval()
@@ -183,7 +182,7 @@ def explore_validation_dataset(idx, inv):
         outputimg[:,i*imgsize:(i+1)*imgsize]=output
         labelimg[:,i*imgsize:(i+1)*imgsize]=label
 
-
+    """
     fig=plt.figure(figsize=(8, 8))
     fig.add_subplot(2, 2, 1)
     plt.imshow(referenceimg)
@@ -198,10 +197,20 @@ def explore_validation_dataset(idx, inv):
     plt.imshow(outputimg)
     plt.title('ChangeNet Output')
     plt.show()
+    """
+
     vline = np.ones((imgsize,1))
     hline = np.ones((1,imgsize*8*2+1))
     outimg = np.hstack((referenceimg[:,:,0],vline,testimg[:,:,0]))
     outimg= np.vstack((outimg,hline,np.hstack((labelimg,vline,outputimg))))
+
+    image_sizeH = 128
+    image_sizeW = 1024
+    referenceimgRES = cv2.resize(referenceimg[:,:,0],(image_sizeH,image_sizeW))
+    testimgRES = cv2.resize(testimg[:,:,0],(image_sizeH,image_sizeW))
+    outputimgRES = cv2.resize(outputimg,(image_sizeH,image_sizeW))
+
+    evaloutImg=np.vstack((referenceimgRES,testimgRES,outputimgRES))
 #   plt.imshow(outimg)
 #    plt.show()
     plt.imsave("./trainoutput/"+str(idx)+".png",outimg)
