@@ -7,7 +7,7 @@ import torch.nn.functional as F
 from torch.utils.tensorboard import SummaryWriter
 import os
 import copy
-
+from tqdm import tqdm
 
 def train_model(model, dataloaders, criterion, optimizer, sc_plt, writer, device, num_epochs=25):    
     val_acc_history = []
@@ -31,7 +31,7 @@ def train_model(model, dataloaders, criterion, optimizer, sc_plt, writer, device
             list_dice_val = []
 
             # Iterate over data.
-            for sample in dataloaders[phase]:   
+            for sample in tqdm(dataloaders[phase]):   
                 reference_img = sample['reference'].to(device)
                 test_img = sample['test'].to(device)
                 #print ("labels (pre squeeze) :", (sample['label'].size()), "ref :", sample['reference'].size())
