@@ -17,13 +17,18 @@ import pickle
 from PIL import ImageMath   
 
 train_file_list = './ChangeNet-arishin/trainCD.txt'
-val_file_list = './ChangeNet-arishin/valCD.txt'
+val_file_list =  './ChangeNet-arishin/valCD.txt'
+test_file_list = './ChangeNet-arishin/testCD.txt'
+
 base_data_dir = './'
 train_pickle_file = './ChangeNet-arishin/change_dataset_trainCD.pkl'
 val_pickle_file = './ChangeNet-arishin/change_dataset_valCD.pkl'
+test_pickle_file = './ChangeNet-arishin/change_dataset_testCD.pkl'
+
 
 validation_set = {}
 training_set = {}
+test_set = {}
 
 image_size  = 256
 image_sizeH = 128
@@ -34,10 +39,13 @@ image_sizeW = 1024
 # %%
 train_file_list = [line.rstrip('\n').split() for line in open(train_file_list)]
 val_file_list = [line.rstrip('\n').split() for line in open(val_file_list)]
+test_file_list = [line.rstrip('\n').split() for line in open(test_file_list)]
 print('Length Training Set:', len(train_file_list))
 print('Length Validation Set:', len(val_file_list))
+print('Length Test Set:', len(test_file_list))
 size_train = len(train_file_list)
 size_validation = len(val_file_list)
+size_test = len(test_file_list)
 
 def ReadImage(FileName):
     # Load the reference, test and label images
@@ -104,3 +112,23 @@ with open(train_pickle_file, 'wb') as handle:
     pickle.dump(training_set, handle, protocol=4)
 print('Saved.')
 training_set={}
+# #### Load Test Set On Memory
+idx2 = 0
+for idx, entry in enumerate(tqdm(test_file_list)):
+    reference_pil,test_pil,label_pil= ReadImage(base_data_dir + entry[0])
+
+    # Populate validation dictionary with tupple (reference,test,label)
+    for i in range(0,8):
+        # Populate training dictionary with tupple (reference,test,label)
+        reference_pilPart = reference_pil.crop(box=(i*image_sizeH,0,image_sizeH*(i+1),image_sizeH))
+        test_pilPart=test_pil.crop(box=(i*image_sizeH,0,image_sizeH*(i+1),image_sizeH))
+        label_pilPart=label_pil.crop(box=(i*image_sizeH,0,image_sizeH*(i+1),image_sizeH))
+
+        test_set[idx2] = reference_pilPart,test_pilPart,label_pilPart   
+        idx2+=1
+ 
+print('Saving Pickle Training Set')
+with open(test_pickle_file, 'wb') as handle:
+    pickle.dump(test_set, handle, protocol=4)
+print('Saved.')
+test_set={}
