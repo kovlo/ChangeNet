@@ -14,7 +14,7 @@ from IPython.display import clear_output, display
 from ipywidgets import interact, interactive, fixed, interact_manual
 import ipywidgets as widgets
 import pickle
-import cv2 
+from PIL import ImageMath   
 
 train_file_list = './ChangeNet-arishin/trainCD.txt'
 val_file_list = './ChangeNet-arishin/valCD.txt'
@@ -40,27 +40,19 @@ size_train = len(train_file_list)
 size_validation = len(val_file_list)
 
 def ReadImage(FileName):
-     # Load the reference, test and label images
-    #trio_img = cv2.imread(base_data_dir + entry[0],cv2.IMREAD_UNCHANGED)
+    # Load the reference, test and label images
     trio_pil = Image.open(FileName).convert('I;16')
 
     #reference_img = (trio_img[0:image_sizeH,:]/1000/42.42)
     #reference_img = np.tile(reference_img[:,:,np.newaxis],(1,1,3))
     reference_pil = trio_pil.crop(box=(0,0*image_sizeH,image_sizeW,1*image_sizeH)).convert('F')
-    #width, height = reference_pil.size
-    #print(width, height)
-
-    #from PIL import ImageMath
-    #reference_pil2 = ImageMath.eval("a/1000/42.42", a=reference_pil)
 
     #test_img = trio_img[image_sizeH:2*image_sizeH,:]/1000/42.42
     #test_img = np.tile(test_img[:,:,np.newaxis],(1,1,3))
     test_pil = trio_pil.crop(box=(0,1*image_sizeH,image_sizeW,2*image_sizeH)).convert('F')
-    #width, height = test_pil.size
-    #print(width, height)
+
     label_pil = trio_pil.crop(box=(0,2*image_sizeH,image_sizeW,3*image_sizeH)).convert("L")
 
-    from PIL import ImageMath   
     reference_pil = ImageMath.eval("(x/1000/42.42*255)",x=reference_pil).convert('L')
     test_pil = ImageMath.eval("(x/1000/42.42*255)",x=test_pil).convert('L')
     label_pil = Image.eval(label_pil,lambda x: 1 if x>0 else 0)
@@ -78,11 +70,7 @@ for idx, entry in enumerate(tqdm(val_file_list[:1000])):
     # Populate validation dictionary with tupple (reference,test,label)
     for i in range(0,8):
         # Populate training dictionary with tupple (reference,test,label)
-        #validation_set[idx2] = reference_img[:,i*128:(i+1)*128], test_img[:,i*128:(i+1)*128], label_img[:,i*128:(i+1)*128]   
-        #print((0,i*image_sizeH,image_sizeH,(i+1)*image_sizeH))
         reference_pilPart = reference_pil.crop(box=(i*image_sizeH,0,image_sizeH*(i+1),image_sizeH))
-        #width, height = reference_pilPart.size
-        #print(width, height)
         test_pilPart=test_pil.crop(box=(i*image_sizeH,0,image_sizeH*(i+1),image_sizeH))
         label_pilPart=label_pil.crop(box=(i*image_sizeH,0,image_sizeH*(i+1),image_sizeH))
 
@@ -104,11 +92,7 @@ for idx, entry in enumerate(tqdm(train_file_list[:5000])):
     # Populate validation dictionary with tupple (reference,test,label)
     for i in range(0,8):
         # Populate training dictionary with tupple (reference,test,label)
-        #training_set[idx2] = reference_img[:,i*128:(i+1)*128], test_img[:,i*128:(i+1)*128], label_img[:,i*128:(i+1)*128]   
-        #print((0,i*image_sizeH,image_sizeH,(i+1)*image_sizeH))
         reference_pilPart = reference_pil.crop(box=(i*image_sizeH,0,image_sizeH*(i+1),image_sizeH))
-        #width, height = reference_pilPart.size
-        #print(width, height)
         test_pilPart=test_pil.crop(box=(i*image_sizeH,0,image_sizeH*(i+1),image_sizeH))
         label_pilPart=label_pil.crop(box=(i*image_sizeH,0,image_sizeH*(i+1),image_sizeH))
 
