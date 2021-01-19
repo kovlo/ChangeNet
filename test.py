@@ -112,7 +112,7 @@ dataset = val_dataset
 #dataset = train_dataset
 dataset = test_dataset
 
-for idx in range (0,int(len(dataset)/8)):
+for idx in range (0,min(100,int(len(dataset)/8))):
     explore_validation_dataset(idx, False)
 
 print("Finished.")
