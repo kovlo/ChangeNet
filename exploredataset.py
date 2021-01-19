@@ -72,7 +72,7 @@ def ReadImage(FileName):
 # %%
 idx2 = 0
 plt.figure
-for idx, entry in enumerate(tqdm(val_file_list[:1000])):
+for idx, entry in enumerate(tqdm(val_file_list[:2000])):
     reference_pil,test_pil,label_pil= ReadImage(base_data_dir + entry[0])
 
     # Populate validation dictionary with tupple (reference,test,label)
@@ -94,7 +94,7 @@ print('Done')
 
 # #### Load Training Set On Memory
 idx2 = 0
-for idx, entry in enumerate(tqdm(train_file_list[:5000])):
+for idx, entry in enumerate(tqdm(train_file_list[:10000])):
     reference_pil,test_pil,label_pil= ReadImage(base_data_dir + entry[0])
 
     # Populate validation dictionary with tupple (reference,test,label)
