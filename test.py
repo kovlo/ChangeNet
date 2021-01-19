@@ -21,8 +21,6 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print('Device:', device)
 #num_gpu = torch.cuda.device_count()
 num_gpu = 1
-batch_size *= num_gpu
-base_lr *= num_gpu
 print('Number of GPUs Available:', num_gpu)
 
 num_classes = 2
