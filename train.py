@@ -35,7 +35,7 @@ from ipywidgets import interact, interactive, fixed, interact_manual
 import ipywidgets as widgets
 
 # Hyperparameters
-num_epochs = 50
+num_epochs = 10
 num_classes = 2
 batch_size = 20
 img_size = 224
