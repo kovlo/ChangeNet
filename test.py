@@ -100,12 +100,14 @@ def explore_validation_dataset(idx, inv):
 
     image_sizeH = 128
     image_sizeW = 1024
-    referenceimgRES = cv2.resize(referenceimg[:,:,0],(image_sizeH,image_sizeW))
-    testimgRES = cv2.resize(testimg[:,:,0],(image_sizeH,image_sizeW))
-    outputimgRES = cv2.resize(outputimg,(image_sizeH,image_sizeW))
+    referenceimgRES = cv2.resize(referenceimg[:,:,0],(image_sizeW,image_sizeH))
+    testimgRES = cv2.resize(testimg[:,:,0],(image_sizeW,image_sizeH))
+    labelimgRES = cv2.resize(labelimg,(image_sizeW,image_sizeH))
+    outputimgRES = cv2.resize(outputimg,(image_sizeW,image_sizeH))
     
-    evaloutImg=np.vstack((referenceimgRES,testimgRES,outputimgRES))
-    plt.imsave(outdir+str(idx)+".png",outimg)
+    evaloutImg = np.hstack((referenceimgRES,testimgRES))
+    evaloutImg= np.vstack((evaloutImg,np.hstack((labelimgRES,outputimgRES))))
+    plt.imsave(outdir+str(idx)+".png",evaloutImg)
     print(idx)
 
 
