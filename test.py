@@ -54,6 +54,10 @@ if os.path.exists((checkpointname)):
     change_net.load_state_dict(checkpoint);
     print('Checkpoint '+checkpointname+' is loaded.')
 
+def check_dir(dir):
+    if not os.path.exists(dir):
+        os.mkdir(dir)
+
 def explore_validation_dataset(idx, inv):
     change_net.eval()
 
@@ -91,8 +95,8 @@ def explore_validation_dataset(idx, inv):
 
     vline = np.ones((img_size,1))
     hline = np.ones((1,img_size*8*2+1))
-    outimg = np.hstack((referenceimg[:,:,0],vline,testimg[:,:,0]))
-    outimg= np.vstack((outimg,hline,np.hstack((labelimg,vline,outputimg))))
+    outimg = np.hstack((referenceimg[:,:,0],testimg[:,:,0]))
+    outimg= np.vstack((outimg,np.hstack((labelimg,outputimg))))
 
     image_sizeH = 128
     image_sizeW = 1024
@@ -108,7 +112,8 @@ def explore_validation_dataset(idx, inv):
 dataset = val_dataset
 #dataset = train_dataset
 dataset = test_dataset
-
+outdir = "./trainoutput/"
+check_dir(outdir)
 for idx in range (0,min(100,int(len(dataset)/8))):
     explore_validation_dataset(idx, False)
 
