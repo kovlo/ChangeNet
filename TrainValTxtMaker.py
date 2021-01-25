@@ -5,10 +5,9 @@ import random
 rootdir = Path('/home/lorant/Projects/data/cikk2/combined/train/')
 
 traintxt = 'trainCD.txt'
-testtxt  = 'valCD.txt'
 valtxt  = 'valCD.txt'
 
-with open(traintxt, 'w') as tr, open(testtxt, 'w') as vl:
+with open(traintxt, 'w') as tr, open(valtxt, 'w') as vl:
 
     images = os.listdir(rootdir)
     images.sort()
