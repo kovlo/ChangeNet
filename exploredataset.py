@@ -16,14 +16,14 @@ import ipywidgets as widgets
 import pickle
 from PIL import ImageMath   
 
-train_file_list = './ChangeNet-arishin/trainCD.txt'
-val_file_list =  './ChangeNet-arishin/valCD.txt'
-test_file_list = './ChangeNet-arishin/testCD.txt'
+train_file_list = './ChangeNet_code/trainCD.txt'
+val_file_list =  './ChangeNet_code/valCD.txt'
+test_file_list = './ChangeNet_code/testCD.txt'
 
 base_data_dir = './'
-train_pickle_file = './ChangeNet-arishin/change_dataset_trainCD.pkl'
-val_pickle_file = './ChangeNet-arishin/change_dataset_valCD.pkl'
-test_pickle_file = './ChangeNet-arishin/change_dataset_testCD.pkl'
+train_pickle_file = './ChangeNet_code/change_dataset_trainCD.pkl'
+val_pickle_file = './ChangeNet_code/change_dataset_valCD.pkl'
+test_pickle_file = './ChangeNet_code/change_dataset_testCD.pkl'
 
 
 validation_set = {}

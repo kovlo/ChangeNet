@@ -49,9 +49,9 @@ batch_size *= num_gpu
 base_lr *= num_gpu
 print('Number of GPUs Available:', num_gpu)
 
-train_pickle_file = './ChangeNet-arishin/change_dataset_trainCD.pkl'
-val_pickle_file = './ChangeNet-arishin/change_dataset_valCD.pkl'
-test_pickle_file = './ChangeNet-arishin/change_dataset_testCD.pkl'
+train_pickle_file = './ChangeNet_code/change_dataset_trainCD.pkl'
+val_pickle_file = './ChangeNet_code/change_dataset_valCD.pkl'
+test_pickle_file = './ChangeNet_code/change_dataset_testCD.pkl'
 
 # #### Define Transformation
 

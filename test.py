@@ -26,9 +26,9 @@ print('Number of GPUs Available:', num_gpu)
 num_classes = 2
 img_size = 224
 
-train_pickle_file = './ChangeNet-arishin/change_dataset_trainCD.pkl'
-val_pickle_file = './ChangeNet-arishin/change_dataset_valCD.pkl'
-test_pickle_file = './ChangeNet-arishin/change_dataset_testCD.pkl'
+train_pickle_file = './ChangeNet_code/change_dataset_trainCD.pkl'
+val_pickle_file = './ChangeNet_code/change_dataset_valCD.pkl'
+test_pickle_file = './ChangeNet_code/change_dataset_testCD.pkl'
 
 checkpointname = './best_model'+str(num_classes)+'CD.pkl'
 
@@ -101,8 +101,7 @@ def explore_validation_dataset(idx, inv):
     outputimgRES = cv2.resize(outputimg,(image_sizeH,image_sizeW))
     
     evaloutImg=np.vstack((referenceimgRES,testimgRES,outputimgRES))
-
-    plt.imsave("./trainoutput/"+str(idx)+".png",outimg)
+    plt.imsave(outdir+str(idx)+".png",outimg)
     print(idx)
 
 
