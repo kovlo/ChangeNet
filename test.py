@@ -67,7 +67,9 @@ def explore_validation_dataset(idx, inv):
     labelimg=np.zeros((img_size,img_size*8))
     outputimg=np.zeros((img_size,img_size*8))
     for i in range(0,8):
-        sample = dataset[idx+i]
+        actidx = idx*8+i
+        print(actidx)
+        sample = dataset[actidx]
         if not inv:
             reference = sample['reference'].unsqueeze(0).to(device)
             reference_img = sample['reference'].permute(1, 2, 0).cpu().numpy()
@@ -107,8 +109,7 @@ def explore_validation_dataset(idx, inv):
     
     evaloutImg = np.hstack((referenceimgRES,testimgRES))
     evaloutImg= np.vstack((evaloutImg,np.hstack((labelimgRES,outputimgRES))))
-    plt.imsave(outdir+str(idx)+".png",evaloutImg)
-    print(idx)
+    cv2.imwrite(outdir+str(idx).zfill(4)+".png",evaloutImg*255)
 
 
 dataset = val_dataset
