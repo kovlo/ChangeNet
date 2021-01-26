@@ -2,10 +2,11 @@ import os
 from pathlib import Path
 import random
 
-rootdir = Path('/home/lorant/Projects/data/cikk2/combined/train/')
 
 traintxt = 'trainCD.txt'
 valtxt  = 'valCD.txt'
+## Train Val txt
+rootdir = Path('/home/lorant/Projects/data/ChangeNet/combined/train/')
 
 with open(traintxt, 'w') as tr, open(valtxt, 'w') as vl:
 
@@ -26,8 +27,8 @@ print('Done!')
 
 ## Test txt
 testtxt = 'testCD.txt'
-rootdir = Path('/home/lorant/Projects/data/cikk2/combined/test/')
 
+rootdir = Path('/home/lorant/Projects/data/ChangeNet/combined/test/')
 
 with open(testtxt, 'w') as tst:
    

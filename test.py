@@ -26,9 +26,9 @@ print('Number of GPUs Available:', num_gpu)
 num_classes = 2
 img_size = 224
 
-train_pickle_file = './ChangeNet_code/change_dataset_trainCD.pkl'
-val_pickle_file = './ChangeNet_code/change_dataset_valCD.pkl'
-test_pickle_file = './ChangeNet_code/change_dataset_testCD.pkl'
+train_pickle_file = './change_dataset_trainCD.pkl'
+val_pickle_file = './change_dataset_valCD.pkl'
+test_pickle_file = './change_dataset_testCD.pkl'
 
 checkpointname = './best_model'+str(num_classes)+'CD.pkl'
 

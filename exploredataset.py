@@ -16,14 +16,14 @@ import ipywidgets as widgets
 import pickle
 from PIL import ImageMath   
 
-train_file_list = './ChangeNet_code/trainCD.txt'
-val_file_list =  './ChangeNet_code/valCD.txt'
-test_file_list = './ChangeNet_code/testCD.txt'
+train_file_list = './trainCD.txt'
+val_file_list =  './valCD.txt'
+test_file_list = './testCD.txt'
 
 base_data_dir = './'
-train_pickle_file = './ChangeNet_code/change_dataset_trainCD.pkl'
-val_pickle_file = './ChangeNet_code/change_dataset_valCD.pkl'
-test_pickle_file = './ChangeNet_code/change_dataset_testCD.pkl'
+train_pickle_file = './change_dataset_trainCD.pkl'
+val_pickle_file = './change_dataset_valCD.pkl'
+test_pickle_file = './change_dataset_testCD.pkl'
 
 
 validation_set = {}
@@ -124,9 +124,17 @@ for idx, entry in enumerate(tqdm(test_file_list)):
         test_pilPart=test_pil.crop(box=(i*image_sizeH,0,image_sizeH*(i+1),image_sizeH))
         label_pilPart=label_pil.crop(box=(i*image_sizeH,0,image_sizeH*(i+1),image_sizeH))
 
-        test_set[idx2] = reference_pilPart,test_pilPart,label_pilPart   
+        test_set[idx2] = reference_pilPart,test_pilPart,label_pilPart  
+        """
+        plt.subplot(3,8,i+1)
+        plt.imshow(reference_pilPart)
+        plt.subplot(3,8,i+1+8)
+        plt.imshow(test_pilPart)
+        plt.subplot(3,8,i+1+8+8)
+        plt.imshow(label_pilPart)
+        """
         idx2+=1
- 
+    #plt.show()
 print('Saving Pickle Training Set')
 with open(test_pickle_file, 'wb') as handle:
     pickle.dump(test_set, handle, protocol=4)
