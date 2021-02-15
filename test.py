@@ -10,6 +10,7 @@ import losses
 import utils_train
 import change_dataset_np
 import matplotlib.pyplot as plt
+import time
 
 import os.path
 import cv2
@@ -109,7 +110,7 @@ def explore_validation_dataset(idx, inv):
     
     evaloutImg = np.hstack((referenceimgRES,testimgRES))
     evaloutImg= np.vstack((evaloutImg,np.hstack((labelimgRES,outputimgRES))))
-    cv2.imwrite(outdir+str(idx).zfill(4)+".png",evaloutImg*255)
+    cv2.imwrite(outdir+"change_net_"+str(idx).zfill(4)+".png",evaloutImg*255)
 
 
 dataset = val_dataset
@@ -117,7 +118,13 @@ dataset = val_dataset
 dataset = test_dataset
 outdir = "./trainoutput/"
 check_dir(outdir)
-for idx in range (0,min(100,int(len(dataset)/8))):
+starttime = time.time()
+for idx in range (0,min(1000,int(len(dataset)/8))):
     explore_validation_dataset(idx, False)
 
-print("Finished.")
+endtime = time.time()
+avgtime = (endtime-starttime)/len(dataset)/8
+with open((outdir+"avgtime.time"), 'w') as f2:
+    f2.write(str(avgtime))
+    f2.write("\n")
+print("Avg execution time: "+str(avgtime))
