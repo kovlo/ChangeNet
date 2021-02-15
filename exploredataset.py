@@ -20,7 +20,7 @@ train_file_list = './trainCD.txt'
 val_file_list =  './valCD.txt'
 test_file_list = './testCD.txt'
 
-base_data_dir = './'
+base_data_dir = ''
 train_pickle_file = './change_dataset_trainCD.pkl'
 val_pickle_file = './change_dataset_valCD.pkl'
 test_pickle_file = './change_dataset_testCD.pkl'
